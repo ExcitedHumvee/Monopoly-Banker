@@ -113,3 +113,9 @@ Development Notes
 
 - Next feature: In the Game Setup page, show all three text boxes (name, shortcode, balance) on a single row. The three inputs should be responsive and shrink proportionally on smaller screens so they remain visible without wrapping. Add this note to `copilot_instructions` first, then implement the UI/CSS changes.
 
+- Next feature: In the Game Setup page, add an "X" delete button on each player row to allow removing a player. Also add validations in the setup (for example: no repeating names). As always, add this instruction to `copilot_instructions` first, then implement the code changes.
+
+- Next feature: In the Game Setup page, add a button to "Add Player" that appends a new empty player row to the setup list. Add this instruction to `copilot_instructions` first, then implement the UI and handler to add rows.
+
+- Bug report: When clicking Add Player, existing players' shortcodes reset to 'a', 'b', 'c', etc., and newly created players don't appear correctly after starting the game. Add this report to `copilot_instructions` and investigate fixes (preserve existing player codes, avoid auto-overwriting, and ensure renderBalances shows extras).
+

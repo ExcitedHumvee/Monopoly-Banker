@@ -29,6 +29,7 @@ function renderSetup() {
                                 <input data-index="${i}" class="player-name" type="text" value="${escapeHtml(p.name)}" />
                                 <input data-index="${i}" class="player-code" type="text" maxlength="1" value="${escapeHtml(p.code)}" />
                                 <input data-index="${i}" class="player-balance" type="number" value="${p.balance}" />
+                                <button class="delete-row" aria-label="Delete player">✖</button>
                                 <div class="mobile-move">
                                     <button class="move-btn move-up" data-index="${i}" title="Move up">▲</button>
                                     <button class="move-btn move-down" data-index="${i}" title="Move down">▼</button>
@@ -89,6 +90,9 @@ function renderSetup() {
         const down = row.querySelector('.move-down');
         if (up) up.addEventListener('click', e => { e.preventDefault(); const idx = Number(row.dataset.index); moveRow(idx, idx - 1); });
         if (down) down.addEventListener('click', e => { e.preventDefault(); const idx = Number(row.dataset.index); moveRow(idx, idx + 1); });
+    // delete button handler
+    const del = row.querySelector('.delete-row');
+    if (del) del.addEventListener('click', e => { e.preventDefault(); const idx = Number(row.dataset.index); if (!isNaN(idx)) { players.splice(idx,1); renderSetup(); } });
     });
 }
 var dragSrcIndex = null;
@@ -119,11 +123,18 @@ function startGame() {
         if (codeSet.has(codes[i])) return showError('Player shortcodes must be unique.');
         codeSet.add(codes[i]);
     }
+    // validate uniqueness of names (non-empty)
+    const nameSet = new Set();
+    for (let i = 0; i < names.length; i++) {
+        if (!names[i]) return showError('Each player must have a name.');
+        const n = names[i].toLowerCase();
+        if (nameSet.has(n)) return showError('Player names must be unique.');
+        nameSet.add(n);
+    }
 
-    players = names.map((name, i) => ({ name: name || DEFAULT_PLAYERS[i].name, code: codes[i], balance: balances[i] }));
-    // ensure display order as specified
-    const order = ['g', 'm', 'z', 't', 's'];
-    players.sort((a, b) => order.indexOf(a.code) - order.indexOf(b.code));
+    // Build players array from current inputs and preserve additional players
+    players = names.map((name, i) => ({ name: name || '', code: codes[i], balance: balances[i] }));
+    // Do not force-sort the players array; keep the user's defined order. We'll render balances with defaults first, then extras.
 
     el('#setup').hidden = true;
     el('#game').hidden = false;
@@ -146,6 +157,7 @@ function renderBalances() {
     list.innerHTML = '';
     // Must always display in the order Giselle, Mia, Zian, Tyrone, Stany
     const order = ['g', 'm', 'z', 't', 's'];
+    // First render default-order players
     order.forEach(code => {
         const p = players.find(x => x.code === code);
         if (!p) return; // skip if missing
@@ -155,6 +167,19 @@ function renderBalances() {
         name.textContent = `${p.name} (${p.code})`;
         const bal = document.createElement('div');
         bal.innerHTML = `$${p.balance.toLocaleString()} ${lastChange[code] ? `<span class="balance-change">(${lastChange[code] > 0 ? '+' : ''}$${Math.abs(lastChange[code])})</span>` : ''}`;
+        li.appendChild(name);
+        li.appendChild(bal);
+        list.appendChild(li);
+    });
+    // Then render any extra players added by the user (those with codes not in the default order)
+    players.forEach(p => {
+        if (order.includes(p.code)) return;
+        const li = document.createElement('li');
+        li.className = 'balance-item';
+        const name = document.createElement('div');
+        name.textContent = `${p.name || '(unnamed)'} (${p.code})`;
+        const bal = document.createElement('div');
+        bal.innerHTML = `$${p.balance.toLocaleString()} ${lastChange[p.code] ? `<span class="balance-change">(${lastChange[p.code] > 0 ? '+' : ''}$${Math.abs(lastChange[p.code])})</span>` : ''}`;
         li.appendChild(name);
         li.appendChild(bal);
         list.appendChild(li);
@@ -247,6 +272,20 @@ window.addEventListener('load', () => {
     renderSetup();
 
     el('#start-game').addEventListener('click', () => startGame());
+    const addBtn = el('#add-player');
+    if (addBtn) addBtn.addEventListener('click', () => {
+        // generate a unique single-letter shortcode if possible
+        const used = new Set(players.map(p => p.code));
+        const letters = 'abcdefghijklmnopqrstuvwxyz';
+        let code = null;
+        for (let ch of letters) { if (!used.has(ch)) { code = ch; break; } }
+        if (!code) {
+            // fallback: use 'p' + next number
+            code = 'p' + (players.length + 1);
+        }
+        players.push({ name: '', code: code, balance: 1500 });
+        renderSetup();
+    });
     el('#apply-transaction').addEventListener('click', () => applyTransaction());
     // history and undo handlers (history modal elements added in index.html)
     const historyBtn = el('#history-button');

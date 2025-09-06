@@ -1,4 +1,6 @@
 next feature:
-in game setup page, i want to see all text boxes in 1 row, all 3 textboxes width should be responsive if screen size reduces
+issues:
+in game setup, when i click add player, all existing players resets to a, b, c etc.
+when i start the game, all the new players that were created doesnt show up, it gets all messed up
 
 always add this to the coplilot_instructions first and then implement code changes
