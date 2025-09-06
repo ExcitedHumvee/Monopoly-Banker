@@ -107,3 +107,5 @@ Development Notes
 
 - Next feature: Prevent mobile zoom on the transaction input. On some mobile browsers (notably iOS Safari) tapping inputs with small font-sizes causes the browser to zoom in. To avoid this, ensure the transaction input and other touch inputs use a font-size of at least 16px or use an appropriate viewport setting. Add this instruction to `copilot_instructions` first, then implement changes.
 
+- Next feature: Display balances above the "Enter transaction:" input on the Transactions page instead of below it. Add this to `copilot_instructions` first, then reorder the UI so the balances list is shown before the transaction controls.
+

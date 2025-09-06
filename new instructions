@@ -1,4 +1,4 @@
 next feature:
-on mobile, whenever i click on the transcation search box, the page gets zoomed in, into the box, i dont want this zooming in, i think there are some websites where u can disable zooming in a website on mobile
+display balances above "enter transcactions:" not below
 
 always add this to the coplilot_instructions first and then implement code changes
