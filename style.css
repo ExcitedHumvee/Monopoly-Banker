@@ -11,11 +11,20 @@ h1{margin:0 0 18px}
 @media (max-width: 520px){
 	.player-row{flex-wrap:wrap;align-items:stretch}
 	.player-row input[type='text'], .player-row input[type='number']{flex:1 1 auto;min-width:40%;}
-	.player-row .drag-handle{order:-1}
+	/* hide desktop drag handle on mobile */
+	.player-row .drag-handle{display:none}
 	.controls{flex-direction:column;align-items:stretch}
 	.controls input, .controls button{width:100%}
 	.controls button{margin-top:8px}
 }
+/* mobile move UI */
+.mobile-move{display:none;margin-left:6px}
+.move-btn{display:inline-block;padding:6px 8px;border-radius:6px;border:1px solid #d1d5db;background:#f3f4f6;cursor:pointer}
+@media (max-width:520px){
+	.mobile-move{display:flex;flex-direction:row;gap:6px;align-items:center}
+  .move-btn{padding:6px 6px}
+}
+/* Touch-friendly drag handles: nothing special in CSS here; handles are the .drag-handle element */
 .player-row input[type='text']{width:160px}
 .player-row input[type='number']{width:120px}
 #balances{list-style:none;padding:0;margin:0}

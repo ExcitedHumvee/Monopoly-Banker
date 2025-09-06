@@ -24,17 +24,20 @@ function renderSetup() {
         // add a drag handle (hamburger) to allow reordering
         row.draggable = true;
         row.dataset.index = i;
-        row.innerHTML = `
-      <div class="drag-handle" title="Drag to reorder">☰</div>
-      <input data-index="${i}" class="player-name" type="text" value="${escapeHtml(p.name)}" />
-      <input data-index="${i}" class="player-code" type="text" maxlength="1" value="${escapeHtml(p.code)}" />
-      <input data-index="${i}" class="player-balance" type="number" value="${p.balance}" />
-    `;
+                        row.innerHTML = `
+                                <div class="drag-handle" title="Drag to reorder">☰</div>
+                                <input data-index="${i}" class="player-name" type="text" value="${escapeHtml(p.name)}" />
+                                <input data-index="${i}" class="player-code" type="text" maxlength="1" value="${escapeHtml(p.code)}" />
+                                <input data-index="${i}" class="player-balance" type="number" value="${p.balance}" />
+                                <div class="mobile-move">
+                                    <button class="move-btn move-up" data-index="${i}" title="Move up">▲</button>
+                                    <button class="move-btn move-down" data-index="${i}" title="Move down">▼</button>
+                                </div>
+                        `;
         list.appendChild(row);
     });
 
     // attach drag/drop handlers
-    let dragSrcIndex = null;
     list.querySelectorAll('.player-row').forEach(row => {
         row.addEventListener('dragstart', e => {
             dragSrcIndex = Number(row.dataset.index);
@@ -53,12 +56,52 @@ function renderSetup() {
             // reassign dataset indices
             renderSetup();
         });
-        // only allow dragging via the handle
+    // pointer / mouse handlers on the handle to support touch dragging
         const handle = row.querySelector('.drag-handle');
         if (handle) {
             handle.addEventListener('mousedown', e => { /* allow drag */ });
+            handle.addEventListener('pointerdown', e => {
+                e.preventDefault();
+                try { handle.setPointerCapture(e.pointerId); } catch (err) {}
+                dragSrcIndex = Number(row.dataset.index);
+                row.classList.add('dragging');
+                lastPointer = { x: e.clientX, y: e.clientY };
+            });
+            handle.addEventListener('pointermove', e => { lastPointer = { x: e.clientX, y: e.clientY }; });
+            handle.addEventListener('pointerup', e => {
+                try { handle.releasePointerCapture(e.pointerId); } catch (err) {}
+                row.classList.remove('dragging');
+                const pt = lastPointer || { x: e.clientX, y: e.clientY };
+                const elAt = document.elementFromPoint(pt.x, pt.y);
+                const targetRow = elAt && elAt.closest ? elAt.closest('.player-row') : null;
+                const destIndex = targetRow ? Number(targetRow.dataset.index) : null;
+                if (destIndex !== null && destIndex !== undefined && destIndex !== dragSrcIndex) {
+                    const moved = players.splice(dragSrcIndex, 1)[0];
+                    players.splice(destIndex, 0, moved);
+                }
+                dragSrcIndex = null;
+                lastPointer = null;
+                renderSetup();
+            });
         }
+    // mobile arrow buttons handlers - use the row's dataset.index to avoid referencing undefined loop var
+    const up = row.querySelector('.move-up');
+    const down = row.querySelector('.move-down');
+    if (up) up.addEventListener('click', e => { e.preventDefault(); const idx = Number(row.dataset.index); moveRow(idx, idx-1); });
+    if (down) down.addEventListener('click', e => { e.preventDefault(); const idx = Number(row.dataset.index); moveRow(idx, idx+1); });
     });
+}
+var dragSrcIndex = null;
+var lastPointer = null;
+
+// moveRow exported at top-level so button handlers can call it
+function moveRow(from, to){
+    if (from === to) return;
+    if (to < 0) to = 0;
+    if (to >= players.length) to = players.length - 1;
+    const item = players.splice(from,1)[0];
+    players.splice(to,0,item);
+    renderSetup();
 }
 
 function escapeHtml(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;') }
