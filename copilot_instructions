@@ -1,0 +1,98 @@
+Monopoly Banker: Application Requirements Document
+1.0 Overview
+
+The Monopoly Banker is a static web application designed to simplify the role of the banker in a game of Monopoly. The application's sole purpose is to track player bank balances and display them accurately after every transaction. It will be a simple, single-page application hosted on GitHub Pages.
+2.0 Core Functionality
+
+The application consists of two main phases: Game Setup and Transaction Processing.
+
+    Game Setup: At the beginning of a session, the user must define the players, their unique shortcodes, and their starting bank balances.
+
+    Transaction Processing: Once the game starts, the user can input financial transactions. The application will parse these inputs, update the player balances accordingly, and display the results.
+
+    Game Reset: The user must have the ability to reset the game at any point, clearing all balances and returning to the initial setup screen.
+
+3.0 Player and Balance Management
+3.1 Player Initialization
+
+    The application should allow the user to specify a list of players.
+
+    For each player, the user must define:
+
+        Full Name: A descriptive name for the player (e.g., "Giselle").
+
+        Shortcode: A unique, single-character, case-insensitive identifier (e.g., "g").
+
+        Initial Balance: The starting amount of money for the player.
+
+    A default initial balance of $1500 should be pre-filled for each player, though this value must be user-editable.
+
+    The application should be pre-configured with the following default players, shortcodes, and balances:
+
+        Giselle → g ($1500)
+
+        Mia → m ($1500)
+
+        Zian → z ($1500)
+
+        Tyrone → t ($1500)
+
+        Stany → s ($1500)
+
+4.0 Transaction Rules
+4.1 Transaction Input Format
+
+    The user will input transactions as a single line of text.
+
+    A transaction consists of one or more instructions separated by spaces.
+
+    Each instruction is a pair of a player's shortcode and a numerical amount.
+
+    The order of the shortcode and amount does not matter. The following formats are all valid:
+
+        <shortcode> <amount> (e.g., g 100)
+
+        <amount> <shortcode> (e.g., 100 g)
+
+    Multiple instructions can be combined in a single input line (e.g., z 100 g -200).
+
+    A positive amount signifies money being added to the player's balance.
+
+    A negative amount signifies money being subtracted from the player's balance.
+
+4.2 Transaction Processing Logic
+
+    The application must parse the transaction input sequentially.
+
+    A number is always associated with the nearest valid player shortcode, whether it appears immediately before or after it.
+
+    All valid instructions within a single input line must be processed and applied to the players' balances simultaneously for that turn.
+
+    Any numbers not paired with a valid shortcode must be ignored.
+
+    Any shortcodes not paired with a number must be ignored.
+
+    Balance changes are persistent and carry over to the next transaction until the game is reset.
+
+5.0 Output and Display Rules
+
+    After every valid transaction, the application must display the current status of all player balances.
+
+    The display order of players must always be consistent: Giselle, Mia, Zian, Tyrone, Stany.
+
+    For each player, the display must show their current total balance.
+
+    If a player's balance was modified in the most recent transaction, the display must also show the amount of that change in parentheses next to their total balance.
+
+        The change should be prefixed with a + for positive amounts and a - for negative amounts (e.g., (+$100) or (-$200)).
+
+    If a player's balance was not affected in the most recent transaction, only their total balance should be displayed, without any parenthetical change amount.
+
+6.0 Error Handling
+
+    The application must be robust against malformed input.
+
+    If two numbers appear consecutively, only the one directly adjacent to a valid shortcode should be processed. The other should be ignored.
+
+    If the application cannot parse any valid instruction from the user's input, it must display an appropriate error message to the user.
+
