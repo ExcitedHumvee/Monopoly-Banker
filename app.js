@@ -20,12 +20,43 @@ function renderSetup() {
   players.forEach((p, i) => {
     const row = document.createElement('div');
     row.className = 'player-row';
+    // add a drag handle (hamburger) to allow reordering
+    row.draggable = true;
+    row.dataset.index = i;
     row.innerHTML = `
+      <div class="drag-handle" title="Drag to reorder">☰</div>
       <input data-index="${i}" class="player-name" type="text" value="${escapeHtml(p.name)}" />
       <input data-index="${i}" class="player-code" type="text" maxlength="1" value="${escapeHtml(p.code)}" />
       <input data-index="${i}" class="player-balance" type="number" value="${p.balance}" />
     `;
     list.appendChild(row);
+  });
+
+  // attach drag/drop handlers
+  let dragSrcIndex = null;
+  list.querySelectorAll('.player-row').forEach(row => {
+    row.addEventListener('dragstart', e => {
+      dragSrcIndex = Number(row.dataset.index);
+      row.classList.add('dragging');
+      e.dataTransfer.effectAllowed = 'move';
+    });
+    row.addEventListener('dragend', () => { row.classList.remove('dragging'); dragSrcIndex = null; renderSetup(); });
+    row.addEventListener('dragover', e => { e.preventDefault(); e.dataTransfer.dropEffect = 'move'; });
+    row.addEventListener('drop', e => {
+      e.preventDefault();
+      const destIndex = Number(row.dataset.index);
+      if (dragSrcIndex === null || destIndex === dragSrcIndex) return;
+      // reorder players array
+      const moved = players.splice(dragSrcIndex, 1)[0];
+      players.splice(destIndex, 0, moved);
+      // reassign dataset indices
+      renderSetup();
+    });
+    // only allow dragging via the handle
+    const handle = row.querySelector('.drag-handle');
+    if (handle){
+      handle.addEventListener('mousedown', e => { /* allow drag */ });
+    }
   });
 }
 
