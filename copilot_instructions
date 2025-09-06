@@ -103,3 +103,5 @@ Development Notes
 
 - Next feature: Fix mobile UI issues. On small screens the initial player balance inputs in Game Setup overflow to the right, and the Reset button on the Transactions screen can go off-screen. Make the layout responsive so inputs wrap or shrink appropriately and controls remain visible on mobile devices.
 
+- Next feature: Add a "History" button on the Transactions page that shows a list of past transaction lines and their parsed effects, and a "Go Back" button to undo the last applied transaction or return to the previous screen. As always, add this note to `copilot_instructions` first, then implement the UI and logic.
+

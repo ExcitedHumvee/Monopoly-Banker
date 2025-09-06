@@ -24,6 +24,8 @@
         <label for="transaction-input">Enter transaction:</label>
         <input id="transaction-input" placeholder="e.g. z 100 g -200" />
         <button id="apply-transaction">Apply</button>
+        <button id="history-button">History</button>
+        <button id="go-back">Go Back</button>
         <button id="reset-game">Reset</button>
       </div>
       <div id="error" role="alert" aria-live="polite"></div>
@@ -31,6 +33,15 @@
       <h3>Balances</h3>
       <ul id="balances"></ul>
     </section>
+
+    <!-- History modal -->
+    <div id="history-modal" class="modal" hidden>
+      <div class="modal-content">
+        <h3>Transaction History</h3>
+        <button id="close-history">Close</button>
+        <ul id="history-list"></ul>
+      </div>
+    </div>
   </main>
   <script src="app.js"></script>
 </body>

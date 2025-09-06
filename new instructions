@@ -1,6 +1,4 @@
 next feature:
-ui doesnt look good in mobile
-in game setup page, the init player balances are off the screen to the right
-also in transactions screen reset button is going off screen
+add history button in transcactions page (and also a go back button)
 
 always add this to the coplilot_instructions first and then implement code changes

@@ -27,3 +27,12 @@ button[hidden]{display:none}
 #reset-game{background:#d1d5db;color:#111}
 input{padding:8px;border:1px solid #e6e6e6;border-radius:6px}
 small{color:var(--muted)}
+
+/* history modal */
+.modal[hidden]{display:none}
+.modal{position:fixed;inset:0;background:rgba(2,6,23,0.5);display:flex;align-items:center;justify-content:center}
+.modal-content{background:var(--card);padding:16px;border-radius:8px;max-width:480px;width:90%;max-height:70vh;overflow:auto}
+.modal-content h3{margin-top:0}
+.modal-content button{float:right}
+.modal-content ul{list-style:none;padding:0;margin-top:12px}
+.modal-content li{padding:8px;border-bottom:1px solid #eee}

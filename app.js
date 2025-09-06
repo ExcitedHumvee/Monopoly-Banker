@@ -11,6 +11,7 @@ const DEFAULT_PLAYERS = [
 
 let players = [];
 let lastChange = {}; // map shortcode -> change applied in last transaction
+let history = []; // array of { input, changes }
 
 const el = selector => document.querySelector(selector);
 
@@ -188,6 +189,9 @@ function applyTransaction() {
     if (p){ p.balance += delta; lastChange[code]=delta; }
   });
 
+  // record history entry for this transaction
+  history.push({ input, changes: { ...lastChange } });
+
   renderBalances();
   showError('');
   el('#transaction-input').value = '';
@@ -201,6 +205,46 @@ window.addEventListener('load', ()=>{
 
   el('#start-game').addEventListener('click', ()=> startGame());
   el('#apply-transaction').addEventListener('click', ()=> applyTransaction());
+  // history and undo handlers (history modal elements added in index.html)
+  const historyBtn = el('#history-button');
+  if (historyBtn) historyBtn.addEventListener('click', showHistory);
+  const closeHistory = el('#close-history');
+  if (closeHistory) closeHistory.addEventListener('click', ()=> el('#history-modal').hidden = true);
+  // ensure modal is hidden by default
+  const modal = el('#history-modal'); if (modal) modal.hidden = true;
+  // clicking on backdrop closes modal
+  if (modal) modal.addEventListener('click', e => { if (e.target === modal) modal.hidden = true; });
+  const goBack = el('#go-back');
+  if (goBack) goBack.addEventListener('click', undoLastTransaction);
   el('#reset-game').addEventListener('click', ()=> resetGame());
   el('#transaction-input').addEventListener('keydown', e=>{ if (e.key === 'Enter') { e.preventDefault(); applyTransaction(); } });
 });
+
+function showHistory(){
+  const modal = el('#history-modal');
+  const list = el('#history-list');
+  list.innerHTML = '';
+  if (!history.length) {
+    list.innerHTML = '<li><em>No transactions yet</em></li>';
+  } else {
+    history.slice().reverse().forEach(h => {
+      const li = document.createElement('li');
+      const effects = Object.entries(h.changes).map(([c,d])=>`${c} ${d>0?'+':''}${d}`).join(', ');
+      li.textContent = `${h.input} => ${effects}`;
+      list.appendChild(li);
+    });
+  }
+  modal.hidden = false;
+}
+
+function undoLastTransaction(){
+  if (!history.length){ showError('No transaction to undo.'); return }
+  const last = history.pop();
+  Object.entries(last.changes).forEach(([code, delta]) => {
+    const p = players.find(x=>x.code===code);
+    if (p) p.balance -= delta;
+  });
+  lastChange = {};
+  renderBalances();
+  showError('Last transaction undone.');
+}
