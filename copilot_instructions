@@ -111,3 +111,5 @@ Development Notes
 
 - Next feature: Display balances above the "Enter transaction:" input on the Transactions page instead of below it. Add this to `copilot_instructions` first, then reorder the UI so the balances list is shown before the transaction controls.
 
+- Next feature: In the Game Setup page, show all three text boxes (name, shortcode, balance) on a single row. The three inputs should be responsive and shrink proportionally on smaller screens so they remain visible without wrapping. Add this note to `copilot_instructions` first, then implement the UI/CSS changes.
+

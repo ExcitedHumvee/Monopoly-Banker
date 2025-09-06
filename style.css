@@ -4,18 +4,19 @@
 h1{margin:0 0 18px}
 .controls{display:flex;gap:8px;align-items:center;margin-bottom:12px}
 #players-list{display:flex;flex-direction:column;gap:8px;margin-bottom:12px}
-.player-row{display:flex;gap:8px;align-items:center}
+.player-row{display:flex;gap:8px;align-items:center;flex-wrap:nowrap}
 .player-row .drag-handle{cursor:grab;padding:6px 8px;border-radius:6px;background:#f3f4f6;border:1px solid #e6e6e6}
 .player-row.dragging{opacity:0.6}
 /* Responsive adjustments */
 @media (max-width: 520px){
-	.player-row{flex-wrap:wrap;align-items:stretch}
-	.player-row input[type='text'], .player-row input[type='number']{flex:1 1 auto;min-width:40%;}
-	/* hide desktop drag handle on mobile */
-	.player-row .drag-handle{display:none}
-	.controls{flex-direction:column;align-items:stretch}
-	.controls input, .controls button{width:100%}
-	.controls button{margin-top:8px}
+    	/* keep the player row on a single line on small screens; allow inputs to shrink */
+    	.player-row{flex-wrap:nowrap;align-items:center;overflow:hidden;gap:6px}
+    	.player-row input[type='text'], .player-row input[type='number']{flex:1 1 0;min-width:60px}
+    	/* hide desktop drag handle on mobile */
+    	.player-row .drag-handle{display:none}
+    	.controls{flex-direction:column;align-items:stretch}
+    	.controls input, .controls button{width:100%}
+    	.controls button{margin-top:8px}
 }
 /* mobile move UI */
 .mobile-move{display:none;margin-left:6px}
@@ -25,8 +26,10 @@ h1{margin:0 0 18px}
   .move-btn{padding:6px 6px}
 }
 /* Touch-friendly drag handles: nothing special in CSS here; handles are the .drag-handle element */
-.player-row input[type='text']{width:160px}
-.player-row input[type='number']{width:120px}
+.player-row input[type='text'], .player-row input[type='number']{flex: 0 1 auto}
+.player-row .player-name{flex-basis: 48%; min-width: 120px}
+.player-row .player-code{flex-basis: 16%; min-width: 44px; max-width: 64px}
+.player-row .player-balance{flex-basis: 28%; min-width: 80px}
 #balances{list-style:none;padding:0;margin:0}
 .balance-item{display:flex;justify-content:space-between;padding:8px 12px;border-radius:6px;border:1px solid #ececec;margin-bottom:8px}
 .balance-change{font-weight:600;color:var(--accent)}
