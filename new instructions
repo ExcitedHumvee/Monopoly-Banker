@@ -1,4 +1,6 @@
 next feature:
-in the game setup page, i want an easy way to rearrange  players (a hamburger icon to rearrage players would be great)
+ui doesnt look good in mobile
+in game setup page, the init player balances are off the screen to the right
+also in transactions screen reset button is going off screen
 
 always add this to the coplilot_instructions first and then implement code changes
