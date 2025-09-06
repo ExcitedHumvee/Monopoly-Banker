@@ -1,6 +1,4 @@
 next feature:
-issues:
-in game setup, when i click add player, all existing players resets to a, b, c etc.
-when i start the game, all the new players that were created doesnt show up, it gets all messed up
+when i press reset, instead of completely reseting the game setup page, i want the existing players and their details to be populated in game setup page
 
 always add this to the coplilot_instructions first and then implement code changes

@@ -143,11 +143,11 @@ function startGame() {
 }
 
 function resetGame() {
-    // revert to setup with defaults
-    players = JSON.parse(JSON.stringify(DEFAULT_PLAYERS));
+    // Return to setup populated with current players (do not overwrite with defaults)
     lastChange = {};
     el('#setup').hidden = false;
     el('#game').hidden = true;
+    // Keep current `players` array so the setup form shows current details
     renderSetup();
     showError('');
 }

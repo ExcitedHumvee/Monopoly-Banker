@@ -119,3 +119,5 @@ Development Notes
 
 - Bug report: When clicking Add Player, existing players' shortcodes reset to 'a', 'b', 'c', etc., and newly created players don't appear correctly after starting the game. Add this report to `copilot_instructions` and investigate fixes (preserve existing player codes, avoid auto-overwriting, and ensure renderBalances shows extras).
 
+- Next feature: When pressing Reset, do not revert to DEFAULT_PLAYERS; instead return to the Game Setup page populated with the current players and their current details (names, codes, balances). Add this instruction to `copilot_instructions` first, then implement the code changes.
+
