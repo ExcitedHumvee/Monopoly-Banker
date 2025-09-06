@@ -90,9 +90,9 @@ function renderSetup() {
         const down = row.querySelector('.move-down');
         if (up) up.addEventListener('click', e => { e.preventDefault(); const idx = Number(row.dataset.index); moveRow(idx, idx - 1); });
         if (down) down.addEventListener('click', e => { e.preventDefault(); const idx = Number(row.dataset.index); moveRow(idx, idx + 1); });
-    // delete button handler
-    const del = row.querySelector('.delete-row');
-    if (del) del.addEventListener('click', e => { e.preventDefault(); const idx = Number(row.dataset.index); if (!isNaN(idx)) { players.splice(idx,1); renderSetup(); } });
+        // delete button handler
+        const del = row.querySelector('.delete-row');
+        if (del) del.addEventListener('click', e => { e.preventDefault(); const idx = Number(row.dataset.index); if (!isNaN(idx)) { players.splice(idx, 1); renderSetup(); } });
     });
 }
 var dragSrcIndex = null;
