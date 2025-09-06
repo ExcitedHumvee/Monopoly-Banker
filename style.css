@@ -28,6 +28,10 @@ button[hidden]{display:none}
 input{padding:8px;border:1px solid #e6e6e6;border-radius:6px}
 small{color:var(--muted)}
 
+/* Prevent mobile browsers from auto-zooming when focusing inputs by ensuring adequate font-size */
+input, textarea, select { font-size: 16px; }
+html, body { -webkit-text-size-adjust: 100%; }
+
 /* history modal */
 .modal[hidden]{display:none}
 .modal{position:fixed;inset:0;background:rgba(2,6,23,0.5);display:flex;align-items:center;justify-content:center}
