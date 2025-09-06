@@ -1,0 +1,18 @@
+:root{--bg:#f6f8fa;--card:#fff;--muted:#6b7280;--accent:#0ea5a4}
+*{box-sizing:border-box}body{font-family:Inter,system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:#111;margin:0;padding:32px}
+.container{max-width:760px;margin:0 auto;background:var(--card);padding:24px;border-radius:10px;box-shadow:0 6px 24px rgba(15,23,42,0.08)}
+h1{margin:0 0 18px}
+.controls{display:flex;gap:8px;align-items:center;margin-bottom:12px}
+#players-list{display:flex;flex-direction:column;gap:8px;margin-bottom:12px}
+.player-row{display:flex;gap:8px;align-items:center}
+.player-row input[type='text']{width:160px}
+.player-row input[type='number']{width:120px}
+#balances{list-style:none;padding:0;margin:0}
+.balance-item{display:flex;justify-content:space-between;padding:8px 12px;border-radius:6px;border:1px solid #ececec;margin-bottom:8px}
+.balance-change{font-weight:600;color:var(--accent)}
+#error{color:#b91c1c;margin-bottom:8px}
+button{background:var(--accent);color:white;border:0;padding:8px 12px;border-radius:6px;cursor:pointer}
+button[hidden]{display:none}
+#reset-game{background:#d1d5db;color:#111}
+input{padding:8px;border:1px solid #e6e6e6;border-radius:6px}
+small{color:var(--muted)}

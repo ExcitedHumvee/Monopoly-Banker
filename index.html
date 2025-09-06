@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Monopoly Banker</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="container">
+    <h1>Monopoly Banker</h1>
+
+    <section id="setup">
+      <h2>Game Setup</h2>
+      <form id="players-form">
+        <div id="players-list"></div>
+        <button id="start-game" type="button">Start Game</button>
+      </form>
+    </section>
+
+    <section id="game" hidden>
+      <h2>Transactions</h2>
+      <div class="controls">
+        <label for="transaction-input">Enter transaction:</label>
+        <input id="transaction-input" placeholder="e.g. z 100 g -200" />
+        <button id="apply-transaction">Apply</button>
+        <button id="reset-game">Reset</button>
+      </div>
+      <div id="error" role="alert" aria-live="polite"></div>
+
+      <h3>Balances</h3>
+      <ul id="balances"></ul>
+    </section>
+  </main>
+  <script src="app.js"></script>
+</body>
+</html>
