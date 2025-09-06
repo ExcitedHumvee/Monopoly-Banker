@@ -1,4 +1,4 @@
 next feature:
-display balances above "enter transcactions:" not below
+Hamburger rearrage buttons not working on mobile, also for each line (name, shortname, init balance) i want everyting to be in 1 line, not overflow to next line, make the init balance text box half the current size, short name box should be very small (3 text characs), name box should be half the current size; these 3 text boxes should be responsive to the display size
 
 always add this to the coplilot_instructions first and then implement code changes
