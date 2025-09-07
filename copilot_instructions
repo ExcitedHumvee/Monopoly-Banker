@@ -121,3 +121,5 @@ Development Notes
 
 - Next feature: When pressing Reset, do not revert to DEFAULT_PLAYERS; instead return to the Game Setup page populated with the current players and their current details (names, codes, balances). Add this instruction to `copilot_instructions` first, then implement the code changes.
 
+- Bug/Improvement: Negative sign not showing when balances are decreased; remove the hamburger (drag-handle) reorder functionality entirely and make the arrow up/down buttons available at all screen sizes. Add this note to `copilot_instructions` first, then implement the UI/CSS/JS changes.
+

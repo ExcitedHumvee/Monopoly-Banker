@@ -21,11 +21,9 @@ function renderSetup() {
     players.forEach((p, i) => {
         const row = document.createElement('div');
         row.className = 'player-row';
-        // add a drag handle (hamburger) to allow reordering
-        row.draggable = true;
+    // (hamburger removed) row not draggable
         row.dataset.index = i;
         row.innerHTML = `
-                                <div class="drag-handle" title="Drag to reorder">☰</div>
                                 <input data-index="${i}" class="player-name" type="text" value="${escapeHtml(p.name)}" />
                                 <input data-index="${i}" class="player-code" type="text" maxlength="1" value="${escapeHtml(p.code)}" />
                                 <input data-index="${i}" class="player-balance" type="number" value="${p.balance}" />
@@ -38,54 +36,8 @@ function renderSetup() {
         list.appendChild(row);
     });
 
-    // attach drag/drop handlers
+    // attach handlers for move/delete buttons
     list.querySelectorAll('.player-row').forEach(row => {
-        row.addEventListener('dragstart', e => {
-            dragSrcIndex = Number(row.dataset.index);
-            row.classList.add('dragging');
-            e.dataTransfer.effectAllowed = 'move';
-        });
-        row.addEventListener('dragend', () => { row.classList.remove('dragging'); dragSrcIndex = null; renderSetup(); });
-        row.addEventListener('dragover', e => { e.preventDefault(); e.dataTransfer.dropEffect = 'move'; });
-        row.addEventListener('drop', e => {
-            e.preventDefault();
-            const destIndex = Number(row.dataset.index);
-            if (dragSrcIndex === null || destIndex === dragSrcIndex) return;
-            // reorder players array
-            const moved = players.splice(dragSrcIndex, 1)[0];
-            players.splice(destIndex, 0, moved);
-            // reassign dataset indices
-            renderSetup();
-        });
-        // pointer / mouse handlers on the handle to support touch dragging
-        const handle = row.querySelector('.drag-handle');
-        if (handle) {
-            handle.addEventListener('mousedown', e => { /* allow drag */ });
-            handle.addEventListener('pointerdown', e => {
-                e.preventDefault();
-                try { handle.setPointerCapture(e.pointerId); } catch (err) { }
-                dragSrcIndex = Number(row.dataset.index);
-                row.classList.add('dragging');
-                lastPointer = { x: e.clientX, y: e.clientY };
-            });
-            handle.addEventListener('pointermove', e => { lastPointer = { x: e.clientX, y: e.clientY }; });
-            handle.addEventListener('pointerup', e => {
-                try { handle.releasePointerCapture(e.pointerId); } catch (err) { }
-                row.classList.remove('dragging');
-                const pt = lastPointer || { x: e.clientX, y: e.clientY };
-                const elAt = document.elementFromPoint(pt.x, pt.y);
-                const targetRow = elAt && elAt.closest ? elAt.closest('.player-row') : null;
-                const destIndex = targetRow ? Number(targetRow.dataset.index) : null;
-                if (destIndex !== null && destIndex !== undefined && destIndex !== dragSrcIndex) {
-                    const moved = players.splice(dragSrcIndex, 1)[0];
-                    players.splice(destIndex, 0, moved);
-                }
-                dragSrcIndex = null;
-                lastPointer = null;
-                renderSetup();
-            });
-        }
-        // mobile arrow buttons handlers - use the row's dataset.index to avoid referencing undefined loop var
         const up = row.querySelector('.move-up');
         const down = row.querySelector('.move-down');
         if (up) up.addEventListener('click', e => { e.preventDefault(); const idx = Number(row.dataset.index); moveRow(idx, idx - 1); });
@@ -165,8 +117,10 @@ function renderBalances() {
         li.className = 'balance-item';
         const name = document.createElement('div');
         name.textContent = `${p.name} (${p.code})`;
-        const bal = document.createElement('div');
-        bal.innerHTML = `$${p.balance.toLocaleString()} ${lastChange[code] ? `<span class="balance-change">(${lastChange[code] > 0 ? '+' : ''}$${Math.abs(lastChange[code])})</span>` : ''}`;
+    const bal = document.createElement('div');
+    const delta = lastChange[code];
+    const changeHtml = (delta !== undefined && delta !== 0) ? `<span class="balance-change">(${delta > 0 ? '+' : '-'}$${Math.abs(delta)})</span>` : '';
+    bal.innerHTML = `$${p.balance.toLocaleString()} ${changeHtml}`;
         li.appendChild(name);
         li.appendChild(bal);
         list.appendChild(li);
@@ -178,8 +132,10 @@ function renderBalances() {
         li.className = 'balance-item';
         const name = document.createElement('div');
         name.textContent = `${p.name || '(unnamed)'} (${p.code})`;
-        const bal = document.createElement('div');
-        bal.innerHTML = `$${p.balance.toLocaleString()} ${lastChange[p.code] ? `<span class="balance-change">(${lastChange[p.code] > 0 ? '+' : ''}$${Math.abs(lastChange[p.code])})</span>` : ''}`;
+    const bal = document.createElement('div');
+    const delta2 = lastChange[p.code];
+    const changeHtml2 = (delta2 !== undefined && delta2 !== 0) ? `<span class="balance-change">(${delta2 > 0 ? '+' : '-'}$${Math.abs(delta2)})</span>` : '';
+    bal.innerHTML = `$${p.balance.toLocaleString()} ${changeHtml2}`;
         li.appendChild(name);
         li.appendChild(bal);
         list.appendChild(li);
