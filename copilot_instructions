@@ -125,3 +125,14 @@ Development Notes
 
 - Next feature: Reduce the main container width to approximately half of its current width so the UI appears narrower. Add this instruction to `copilot_instructions` first, then update styles.
 
+ - Next feature: in the transactions screen: i see "Transactions" and "Balances". Get rid of "Balances" and rename "Transactions" to "Balances"
+
+ always add this to the coplilot_instructions first and then implement code changes
+
+next feature:
+
+Monopoly Banker should be centered
+after a transaction, if someones balance as changed: the name and amount should be in bold, and balance-change should be green or red if it increases or decreases
+
+always add this to the coplilot_instructions first and then implement code changes
+
