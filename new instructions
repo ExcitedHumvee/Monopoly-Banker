@@ -1,6 +1,5 @@
 next feature:
 
-bug: -ve sign does not show whenever some money has to be deducted from someone in balances screen
-improvement: remove the hamburger reorder functionality completely, but make sure the arrow buttons are now avbl for all screen sizes.
+in the transactions screen: i see "Transactions" and "Balances". Get rid of "Balances" and rename "Transactions" to "Balances"
 
 always add this to the coplilot_instructions first and then implement code changes

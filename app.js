@@ -21,7 +21,7 @@ function renderSetup() {
     players.forEach((p, i) => {
         const row = document.createElement('div');
         row.className = 'player-row';
-    // (hamburger removed) row not draggable
+        // (hamburger removed) row not draggable
         row.dataset.index = i;
         row.innerHTML = `
                                 <input data-index="${i}" class="player-name" type="text" value="${escapeHtml(p.name)}" />
@@ -117,10 +117,10 @@ function renderBalances() {
         li.className = 'balance-item';
         const name = document.createElement('div');
         name.textContent = `${p.name} (${p.code})`;
-    const bal = document.createElement('div');
-    const delta = lastChange[code];
-    const changeHtml = (delta !== undefined && delta !== 0) ? `<span class="balance-change">(${delta > 0 ? '+' : '-'}$${Math.abs(delta)})</span>` : '';
-    bal.innerHTML = `$${p.balance.toLocaleString()} ${changeHtml}`;
+        const bal = document.createElement('div');
+        const delta = lastChange[code];
+        const changeHtml = (delta !== undefined && delta !== 0) ? `<span class="balance-change">(${delta > 0 ? '+' : '-'}$${Math.abs(delta)})</span>` : '';
+        bal.innerHTML = `$${p.balance.toLocaleString()} ${changeHtml}`;
         li.appendChild(name);
         li.appendChild(bal);
         list.appendChild(li);
@@ -132,10 +132,10 @@ function renderBalances() {
         li.className = 'balance-item';
         const name = document.createElement('div');
         name.textContent = `${p.name || '(unnamed)'} (${p.code})`;
-    const bal = document.createElement('div');
-    const delta2 = lastChange[p.code];
-    const changeHtml2 = (delta2 !== undefined && delta2 !== 0) ? `<span class="balance-change">(${delta2 > 0 ? '+' : '-'}$${Math.abs(delta2)})</span>` : '';
-    bal.innerHTML = `$${p.balance.toLocaleString()} ${changeHtml2}`;
+        const bal = document.createElement('div');
+        const delta2 = lastChange[p.code];
+        const changeHtml2 = (delta2 !== undefined && delta2 !== 0) ? `<span class="balance-change">(${delta2 > 0 ? '+' : '-'}$${Math.abs(delta2)})</span>` : '';
+        bal.innerHTML = `$${p.balance.toLocaleString()} ${changeHtml2}`;
         li.appendChild(name);
         li.appendChild(bal);
         list.appendChild(li);

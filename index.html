@@ -28,12 +28,16 @@
       <ul id="balances"></ul>
 
       <div class="controls">
-        <label for="transaction-input">Enter transaction:</label>
-        <input id="transaction-input" placeholder="e.g. z 100 g -200" />
-        <button id="apply-transaction">Apply</button>
-        <button id="history-button">History</button>
-        <button id="go-back">Go Back</button>
-        <button id="reset-game">Reset</button>
+        <div class="control-inputs">
+          <label for="transaction-input">Enter transaction:</label>
+          <input id="transaction-input" placeholder="e.g. z 100 g -200" />
+          <button id="apply-transaction">Apply</button>
+        </div>
+        <div class="control-actions">
+          <button id="history-button">History</button>
+          <button id="go-back">Go Back</button>
+          <button id="reset-game">Reset</button>
+        </div>
       </div>
       <div id="error" role="alert" aria-live="polite"></div>
     </section>

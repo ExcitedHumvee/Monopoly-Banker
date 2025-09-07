@@ -123,3 +123,5 @@ Development Notes
 
 - Bug/Improvement: Negative sign not showing when balances are decreased; remove the hamburger (drag-handle) reorder functionality entirely and make the arrow up/down buttons available at all screen sizes. Add this note to `copilot_instructions` first, then implement the UI/CSS/JS changes.
 
+- Next feature: Reduce the main container width to approximately half of its current width so the UI appears narrower. Add this instruction to `copilot_instructions` first, then update styles.
+
