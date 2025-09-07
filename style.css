@@ -1,69 +1,325 @@
-:root{--bg:#f6f8fa;--card:#fff;--muted:#6b7280;--accent:#0ea5a4}
-*{box-sizing:border-box}
-body{font-family:Inter,system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:#111;margin:0;padding:32px;display:flex;align-items:center;justify-content:center;min-height:100vh}
-.container{max-width:430px;margin:0 auto;background:var(--card);padding:24px;border-radius:10px;box-shadow:0 6px 24px rgba(15,23,42,0.08)}
-h1{margin:0 0 18px;text-align:center}
-.controls{display:flex;flex-direction:column;gap:8px;align-items:stretch;margin-bottom:12px}
-.control-inputs{display:flex;gap:8px;align-items:center}
-.control-inputs label{flex:0 0 auto;white-space:normal}
-.control-inputs input{flex:1 1 auto;min-width:0}
-.control-inputs button{flex:0 0 auto}
-.control-actions{display:flex;gap:8px;justify-content:flex-start}
-#players-list{display:flex;flex-direction:column;gap:8px;margin-bottom:12px}
-.player-row{display:flex;gap:8px;align-items:center;flex-wrap:nowrap}
-.player-row .drag-handle{cursor:grab;padding:6px 8px;border-radius:6px;background:#f3f4f6;border:1px solid #e6e6e6}
-.player-row.dragging{opacity:0.6}
-/* Responsive adjustments */
-@media (max-width: 520px){
-    	/* keep the player row on a single line on small screens; allow inputs to shrink */
-    	.player-row{flex-wrap:nowrap;align-items:center;overflow:hidden;gap:6px}
-    	.player-row input[type='text'], .player-row input[type='number']{flex:1 1 0;min-width:60px}
-	    	/* drag-handle removed; ensure move buttons visible */
-    	.controls{flex-direction:column;align-items:stretch}
-    	/* stack control inputs vertically on small screens so the Apply button stays below the input */
-    	.control-inputs{flex-direction:column;align-items:stretch}
-    	.control-inputs label{white-space:normal}
-    	.control-inputs input, .control-inputs button{width:100%}
-    	.controls button{margin-top:8px}
+/* Monopoly Banker - style.css (beautified)
+	 Preserves original rules, reformatted for readability and maintainability.
+*/
+
+:root {
+	--bg: #f6f8fa;
+	--card: #fff;
+	--muted: #6b7280;
+	--accent: #0ea5a4;
 }
-.mobile-move{display:flex;margin-left:6px;gap:6px;align-items:center}
-.move-btn{display:inline-block;padding:6px 8px;border-radius:6px;border:1px solid #d1d5db;background:#f3f4f6;cursor:pointer}
-@media (max-width:520px){
-	.move-btn{padding:6px 6px}
+
+* {
+	box-sizing: border-box;
 }
-/* Touch-friendly drag handles: nothing special in CSS here; handles are the .drag-handle element */
-.player-row input[type='text'], .player-row input[type='number']{flex: 0 1 auto}
-.player-row .player-name{flex-basis: 48%; min-width: 120px}
-.player-row .player-code{flex-basis: 16%; min-width: 44px; max-width: 64px}
-.player-row .player-balance{flex-basis: 28%; min-width: 80px}
-#balances{list-style:none;padding:0;margin:0}
-.balance-item{display:flex;justify-content:space-between;padding:8px 12px;border-radius:6px;border:1px solid #ececec;margin-bottom:8px}
-.balance-change{font-weight:600;color:var(--accent)}
-.balance-change{font-weight:600;color:var(--accent)}
+
+body {
+	font-family: Inter, system-ui, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+	background: var(--bg);
+	color: #111;
+	margin: 0;
+	padding: 32px;
+
+	/* center the app */
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	min-height: 100vh;
+}
+
+.container {
+	max-width: 430px;
+	margin: 0 auto;
+	background: var(--card);
+	padding: 24px;
+	border-radius: 10px;
+	box-shadow: 0 6px 24px rgba(15, 23, 42, 0.08);
+}
+
+h1 {
+	margin: 0 0 18px;
+	text-align: center;
+}
+
+/* Controls */
+.controls {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+	align-items: stretch;
+	margin-bottom: 12px;
+}
+
+.control-inputs {
+	display: flex;
+	gap: 8px;
+	align-items: center;
+}
+
+.control-inputs label {
+	flex: 0 0 auto;
+	white-space: normal;
+}
+
+.control-inputs input {
+	flex: 1 1 auto;
+	min-width: 0;
+}
+
+.control-inputs button {
+	flex: 0 0 auto;
+}
+
+.control-actions {
+	display: flex;
+	gap: 8px;
+	justify-content: flex-start;
+}
+
+/* Player setup list */
+#players-list {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+	margin-bottom: 12px;
+}
+
+.player-row {
+	display: flex;
+	gap: 8px;
+	align-items: center;
+	flex-wrap: nowrap;
+}
+
+.player-row .drag-handle {
+	cursor: grab;
+	padding: 6px 8px;
+	border-radius: 6px;
+	background: #f3f4f6;
+	border: 1px solid #e6e6e6;
+}
+
+.player-row.dragging {
+	opacity: 0.6;
+}
+
+/* Move buttons (mobile-friendly) */
+.mobile-move {
+	display: flex;
+	margin-left: 6px;
+	gap: 6px;
+	align-items: center;
+}
+
+.move-btn {
+	display: inline-block;
+	padding: 6px 8px;
+	border-radius: 6px;
+	border: 1px solid #d1d5db;
+	background: #f3f4f6;
+	cursor: pointer;
+}
+
+/* Form inputs sizing inside player rows */
+.player-row input[type="text"],
+.player-row input[type="number"] {
+	flex: 0 1 auto;
+}
+
+.player-row .player-name {
+	flex-basis: 48%;
+	min-width: 120px;
+}
+
+.player-row .player-code {
+	flex-basis: 16%;
+	min-width: 44px;
+	max-width: 64px;
+}
+
+.player-row .player-balance {
+	flex-basis: 28%;
+	min-width: 80px;
+}
+
+/* Balances list */
+#balances {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+
+.balance-item {
+	display: flex;
+	justify-content: space-between;
+	padding: 8px 12px;
+	border-radius: 6px;
+	border: 1px solid #ececec;
+	margin-bottom: 8px;
+}
+
+.balance-change {
+	font-weight: 600;
+	color: var(--accent);
+}
 
 /* changed balance visual styles */
-.balance-item.changed .player-name{font-weight:700}
-.balance-item.changed .player-name .player-name-text{font-weight:700}
-.balance-item.changed .current-balance{font-weight:700}
-.balance-item.changed .balance-change{font-weight:700}
-.balance-item .change-positive{color:#16a34a} /* green */
-.balance-item .change-negative{color:#dc2626} /* red */
-#error{color:#b91c1c;margin-bottom:8px}
-button{background:var(--accent);color:white;border:0;padding:8px 12px;border-radius:6px;cursor:pointer}
-button[hidden]{display:none}
-#reset-game{background:#d1d5db;color:#111}
-input{padding:8px;border:1px solid #e6e6e6;border-radius:6px}
-small{color:var(--muted)}
+.balance-item.changed .player-name {
+	font-weight: 700;
+}
+
+.balance-item.changed .player-name .player-name-text {
+	font-weight: 700;
+}
+
+.balance-item.changed .current-balance {
+	font-weight: 700;
+}
+
+.balance-item.changed .balance-change {
+	font-weight: 700;
+}
+
+.balance-item .change-positive {
+	color: #16a34a; /* green */
+}
+
+.balance-item .change-negative {
+	color: #dc2626; /* red */
+}
+
+#error {
+	color: #b91c1c;
+	margin-bottom: 8px;
+}
+
+/* Buttons */
+button {
+	background: var(--accent);
+	color: white;
+	border: 0;
+	padding: 8px 12px;
+	border-radius: 6px;
+	cursor: pointer;
+}
+
+button[hidden] {
+	display: none;
+}
+
+#reset-game {
+	background: #d1d5db;
+	color: #111;
+}
+
+/* Inputs */
+input {
+	padding: 8px;
+	border: 1px solid #e6e6e6;
+	border-radius: 6px;
+}
+
+small {
+	color: var(--muted);
+}
 
 /* Prevent mobile browsers from auto-zooming when focusing inputs by ensuring adequate font-size */
-input, textarea, select { font-size: 16px; }
-html, body { -webkit-text-size-adjust: 100%; }
+input,
+textarea,
+select {
+	font-size: 16px;
+}
+
+html,
+body {
+	-webkit-text-size-adjust: 100%;
+}
+
+/* Responsive adjustments */
+@media (max-width: 520px) {
+	/* keep the player row on a single line on small screens; allow inputs to shrink */
+	.player-row {
+		flex-wrap: nowrap;
+		align-items: center;
+		overflow: hidden;
+		gap: 6px;
+	}
+
+	.player-row input[type='text'],
+	.player-row input[type='number'] {
+		flex: 1 1 0;
+		min-width: 60px;
+	}
+
+	/* drag-handle removed; ensure move buttons visible */
+	.controls {
+		flex-direction: column;
+		align-items: stretch;
+	}
+
+	/* stack control inputs vertically on small screens so the Apply button stays below the input */
+	.control-inputs {
+		flex-direction: column;
+		align-items: stretch;
+	}
+
+	.control-inputs label {
+		white-space: normal;
+	}
+
+	.control-inputs input,
+	.control-inputs button {
+		width: 100%;
+	}
+
+	.controls button {
+		margin-top: 8px;
+	}
+
+	.move-btn {
+		padding: 6px 6px;
+	}
+}
 
 /* history modal */
-.modal[hidden]{display:none}
-.modal{position:fixed;inset:0;background:rgba(2,6,23,0.5);display:flex;align-items:center;justify-content:center}
-.modal-content{background:var(--card);padding:16px;border-radius:8px;max-width:480px;width:90%;max-height:70vh;overflow:auto}
-.modal-content h3{margin-top:0}
-.modal-content button{float:right}
-.modal-content ul{list-style:none;padding:0;margin-top:12px}
-.modal-content li{padding:8px;border-bottom:1px solid #eee}
+.modal[hidden] {
+	display: none;
+}
+
+.modal {
+	position: fixed;
+	inset: 0;
+	background: rgba(2, 6, 23, 0.5);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.modal-content {
+	background: var(--card);
+	padding: 16px;
+	border-radius: 8px;
+	max-width: 480px;
+	width: 90%;
+	max-height: 70vh;
+	overflow: auto;
+}
+
+.modal-content h3 {
+	margin-top: 0;
+}
+
+.modal-content button {
+	float: right;
+}
+
+.modal-content ul {
+	list-style: none;
+	padding: 0;
+	margin-top: 12px;
+}
+
+.modal-content li {
+	padding: 8px;
+	border-bottom: 1px solid #eee;
+}
