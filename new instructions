@@ -1,6 +1,6 @@
 next feature:
-
-Monopoly Banker should be centered
-after a transaction, if someones balance as changed: the name and amount should be in bold, and balance-change should be green or red if it increases or decreases
+    if the input transcation is not valid, u get this generic error: "No valid instructions parsed from input."
+    the errors should be more useful and specific
+    there should be an info button just to the right of reset (use the info icon) and then just like the Transaction History pop up box there should be a Help Box on how to use this app
 
 always add this to the coplilot_instructions first and then implement code changes
